@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "577775822746",
+    "firebase_url": "https://babyberry-9d2d8.firebaseio.com",
+    "project_id": "babyberry-9d2d8",
+    "storage_bucket": "babyberry-9d2d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577775822746:android:32b5766419573712",
+        "android_client_info": {
+          "package_name": "solutis.com.br.babyberry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "577775822746-4aavigjq8m8j8ssak0klbtkfoujhoj71.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSvd70ISVET3bATE1WiBwm_dlkgNiONfg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
