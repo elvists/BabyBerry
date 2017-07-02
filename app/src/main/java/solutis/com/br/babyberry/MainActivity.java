@@ -66,10 +66,16 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
         // Handle possible data accompanying notification message.
         // [START handle_data_extras]
         if (getIntent().getExtras() != null) {
+
             for (String key : getIntent().getExtras().keySet()) {
                 Object value = getIntent().getExtras().get(key);
                 Log.d(TAG, "Key: " + key + " Value: " + value);
-                speakHelp("testando integração com watson");
+
+                if (key.equals("teste2")) {
+                    speakHelp("Passo 1: Usar uma toalha úmida ou com uma bolsa térmica em temperatura mais fria no tronco e nos membros, utilize  água fria da torneira\n" +
+                            "Passo 2: Mander esta ação verificando a temperatura da criança, até a chegada da emergência.\n" +
+                            "\n");
+                }
             }
         }
         // [END handle_data_extras]
