@@ -19,6 +19,25 @@ android {
     }
 }
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    jcenter()
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -28,6 +47,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.firebase:firebase-messaging:9.6.1'
     compile 'com.firebase:firebase-jobdispatcher:0.5.2'
+    compile 'com.ibm.watson.developer_cloud:android-sdk:0.2.3'
+    compile 'com.ibm.watson.developer_cloud:java-sdk:3.5.3'
+    compile 'com.github.adrielcafe:AndroidAudioConverter:0.0.8'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

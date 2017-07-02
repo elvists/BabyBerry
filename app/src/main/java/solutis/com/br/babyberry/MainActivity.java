@@ -1,10 +1,16 @@
 package solutis.com.br.babyberry;
 
 
+import android.*;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +20,37 @@ import android.widget.Toast;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.IOException;
+
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.model.AudioFormat;
+import solutis.com.br.babyberry.solutis.com.br.babyberry.watson.TextToSpeechService;
+import solutis.com.br.babyberry.solutis.com.br.babyberry.watson.TextToSpeechServiceResult;
+import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
+
+public class MainActivity extends AppCompatActivity implements TextToSpeechServiceResult{
 
     private static final String TAG = "MainActivity";
 
+    private TextToSpeechService textToSpeechService = new TextToSpeechService();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
+        }
+      if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.INTERNET) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.INTERNET},
+                    1);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -38,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             for (String key : getIntent().getExtras().keySet()) {
                 Object value = getIntent().getExtras().get(key);
                 Log.d(TAG, "Key: " + key + " Value: " + value);
+                speakHelp("testando integração com watson");
             }
         }
         // [END handle_data_extras]
@@ -72,4 +104,55 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void speakHelp(String output) {
+        System.out.println(output);
+        TextToSpeechService textToSpeechService = new TextToSpeechService();
+        textToSpeechService.setTextToSpeechServiceResult(this);
+        textToSpeechService.execute(output, getExternalCacheDir().getAbsolutePath());
+    }
+
+    @Override
+    public void processFinishAudio(String output) {
+        System.out.println(output);
+        playSound();
+    }
+
+    private void playSound() {
+        File flacFile = new File(getExternalCacheDir().getAbsolutePath(), "babyberry.wav");
+
+        IConvertCallback callback = new IConvertCallback() {
+            @Override
+            public void onSuccess(File convertedFile) {
+                try {
+                    Uri myUri = Uri.fromFile(convertedFile);
+                    MediaPlayer mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.setDataSource(MainActivity.this, myUri);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Exception error) {
+                error.printStackTrace();
+            }
+        };
+        AndroidAudioConverter.with(this)
+                // Your current audio file
+                .setFile(flacFile)
+
+                // Your desired audio format
+                .setFormat(AudioFormat.MP3)
+
+                // An callback to know when conversion is finished
+                .setCallback(callback)
+
+                // Start conversion
+                .convert();
+
+
+    }
 }
