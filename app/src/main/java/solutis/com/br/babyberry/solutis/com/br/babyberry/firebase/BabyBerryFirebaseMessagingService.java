@@ -16,6 +16,8 @@ import com.firebase.jobdispatcher.Job;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 import solutis.com.br.babyberry.MainActivity;
 import solutis.com.br.babyberry.MyJobService;
 import solutis.com.br.babyberry.R;
@@ -59,7 +61,7 @@ public class BabyBerryFirebaseMessagingService extends FirebaseMessagingService 
                 scheduleJob();
             } else {
                 // Handle message within 10 seconds
-                handleNow();
+                handleNow(remoteMessage.getData());
             }
 
         }
@@ -93,9 +95,9 @@ public class BabyBerryFirebaseMessagingService extends FirebaseMessagingService 
     /**
      * Handle time allotted to BroadcastReceivers.
      */
-    private void handleNow() {
+    private void handleNow(Map<String, String> data) {
         Log.d(TAG, "Short lived task is done.");
-        sendNotification("Testando");
+        sendNotification(data);
     }
 
     /**
@@ -103,27 +105,25 @@ public class BabyBerryFirebaseMessagingService extends FirebaseMessagingService 
      *
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String messageBody) {
-        Log.d(TAG, "sendNotification: " + messageBody);
+    private void sendNotification(Map<String, String> data) {
         Intent intent = new Intent(this, MainActivity.class);
-        /*Bundle extras = new Bundle();
-        extras.putString("teste", "teste");*/
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("teste2", "teste2");
+        intent.putExtra("Febre", data.get("Febre"));
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 
+        int smallIcon = R.drawable.acordado;
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("FCM Message")
-                .setContentText(messageBody)
+                .setContentTitle("BabyBerry")
+                .setContentText(data.get("Febre"))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setSmallIcon(R.drawable.acordado)
+                .setSmallIcon(smallIcon)
                 .setContentIntent(pendingIntent);
-                /*.addExtras(extras);*/
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
