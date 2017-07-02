@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
                             "Passo 2: Mander esta ação verificando a temperatura da criança, até a chegada da emergência.\n" +
                             "\n");
                 }
+
             }
         }
         // [END handle_data_extras]
