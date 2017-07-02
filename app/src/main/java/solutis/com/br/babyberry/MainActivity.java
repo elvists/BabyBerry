@@ -89,28 +89,13 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
         }
         // [END handle_data_extras]
 
-        Button subscribeButton = (Button) findViewById(R.id.subscribeButton);
-        subscribeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // [START subscribe_topics]
-                FirebaseMessaging.getInstance().subscribeToTopic("news");
-                // [END subscribe_topics]
-
-                // Log and toast
-                String msg = getString(R.string.msg_subscribed);
-                Log.d(TAG, msg);
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
-
         Button logTokenButton = (Button) findViewById(R.id.logTokenButton);
         logTokenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get token
+                FirebaseMessaging.getInstance().subscribeToTopic("news");
+
                 String token = FirebaseInstanceId.getInstance().getToken();
 
                 // Log and toast
