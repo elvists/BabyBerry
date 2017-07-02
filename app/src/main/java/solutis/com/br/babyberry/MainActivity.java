@@ -25,6 +25,12 @@ import java.io.IOException;
 
 import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
 import cafe.adriel.androidaudioconverter.model.AudioFormat;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import solutis.com.br.babyberry.solutis.com.br.babyberry.retrofit.ApiInterface;
 import solutis.com.br.babyberry.solutis.com.br.babyberry.watson.TextToSpeechService;
 import solutis.com.br.babyberry.solutis.com.br.babyberry.watson.TextToSpeechServiceResult;
 import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
@@ -32,6 +38,8 @@ import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
 public class MainActivity extends AppCompatActivity implements TextToSpeechServiceResult{
 
     private static final String TAG = "MainActivity";
+
+    public static final String BASE_URL = "http://192.168.25.208:8080/";
 
     private TextToSpeechService textToSpeechService = new TextToSpeechService();
 
@@ -88,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
                 String msg = getString(R.string.msg_subscribed);
                 Log.d(TAG, msg);
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+
             }
         });
 
@@ -102,6 +112,27 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
                 String msg = getString(R.string.msg_token_fmt, token);
                 Log.d(TAG, msg);
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ApiInterface apiService =
+                        retrofit.create(ApiInterface.class);
+                Call<Void> call = apiService.enviarToken(token);
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(MainActivity.this, "Gravou", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(MainActivity.this, "Deu erro", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
