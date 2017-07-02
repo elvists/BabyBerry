@@ -1,25 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/linearlayout"
     tools:context=".MainActivity">
 
+
+
+
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="-20dp"
+        android:background="#DBFDFE"
+        android:id="@+id/linearlayout2"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
+
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="16dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/logo"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="22dp"
+        android:text="BabyBerry"
+        android:paddingLeft="60dp"
+        android:textColor="#E9003c"
+        android:textStyle="bold"
+        android:paddingTop="17dp"
+        android:layout_alignBottom="@+id/linearlayout2"
+        android:layout_alignParentTop="true" />
 
     <Button
+
         android:id="@+id/logTokenButton"
         android:layout_width="@dimen/standard_field_width"
+        android:shadowRadius="22"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/log_token" />
+        android:text="@string/log_token"
+        android:textColor="#E9003c"
+        android:background="@drawable/background_botao"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+
+
+</RelativeLayout>
