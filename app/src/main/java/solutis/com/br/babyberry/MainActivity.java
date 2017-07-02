@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
 
     private static final String TAG = "MainActivity";
 
-    public static final String BASE_URL = "http://192.168.1.119:8080/";
+    public static final String BASE_URL = "http://192.168.25.170:8080/";
 
     private TextToSpeechService textToSpeechService = new TextToSpeechService();
 
@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
 
             for (String key : getIntent().getExtras().keySet()) {
                 if (key.equals("Febre")) {
-                    speakHelp("Passo 1: Usar uma toalha úmida ou com uma bolsa térmica em temperatura mais fria no tronco e nos membros, utilize  água fria da torneira" +
-                            "Passo 2: Mander esta ação verificando a temperatura da criança, até a chegada da emergência.");
+                    speakHelp("Use uma toalha úmida ou com uma bolsa térmica em temperatura mais fria no tronco e nos membros, utilize  água fria da torneira e mantenha-o assim até a chegada da emergência. Sempre verificando a temperatura da criança. ");
+                } else if (key.equals("Apneia")){
+                    speakHelp("Primeiro tente acordá-lo pegando no colo e chamando por ele. Se ele não voltar a respirar faça respiração boca a boca colocando a sua boca, expelindo o ar que está somente na sua boca dentro da boca e do nariz ao mesmo tempo. Como a face do bebê é pequena, sua boca aberta deve ser capaz de cobrir tanto o nariz como a boca do bebê. Não é preciso inspirar profundamente para oferecer muito ar para o bebê porque os pulmões dele são muito pequenos, por isso basta o ar que está dentro da sua boca.");
                 }
-
             }
         }
         // [END handle_data_extras]
@@ -97,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements TextToSpeechServi
                 String msg = getString(R.string.msg_subscribed);
                 Log.d(TAG, msg);
                 Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-
-
             }
         });
 

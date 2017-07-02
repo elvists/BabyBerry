@@ -108,18 +108,32 @@ public class BabyBerryFirebaseMessagingService extends FirebaseMessagingService 
     private void sendNotification(Map<String, String> data) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("Febre", data.get("Febre"));
+
+        String contentText = "";
+        for (String key : data.keySet()) {
+            intent.putExtra(key, data.get(key));
+            contentText = data.get(key);
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        int smallIcon = 1;
+        if (contentText.equals("Febre")) {
+            smallIcon = R.drawable.febre;
+        } else if (contentText.equals("Acordado")) {
+            smallIcon = R.drawable.acordado;
+        }else if (contentText.equals("Cólica")) {
+            smallIcon = R.drawable.colica;
+        }else if (contentText.equals("Apneia")) {
+            smallIcon = R.drawable.apneia;
+        }
 
-        int smallIcon = R.drawable.acordado;
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setContentTitle("BabyBerry")
-                .setContentText(data.get("Febre"))
+                .setContentText(contentText)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setSmallIcon(smallIcon)
